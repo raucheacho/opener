@@ -1,0 +1,121 @@
+{
+  "name": "opener",
+  "displayName": "Opener - Quick Folder Actions",
+  "description": "Open folders in external applications from context menu",
+  "version": "0.0.1",
+  "author": "Rauche Acho",
+  "publisher": "your-publisher-name",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "opener.openXcode",
+        "title": "🧩 Open in Xcode"
+      },
+      {
+        "command": "opener.openAndroidStudio",
+        "title": "🤖 Open in Android Studio"
+      },
+      {
+        "command": "opener.openCurrentWindow",
+        "title": "💠 Open here in VSCode"
+      },
+      {
+        "command": "opener.openNewWindow",
+        "title": "💠 Open in new VSCode window"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "opener.openXcode",
+          "when": "explorerResourceIsFolder && resourceFilename == ios",
+          "group": "navigation@1"
+        },
+        {
+          "command": "opener.openAndroidStudio",
+          "when": "explorerResourceIsFolder && resourceFilename == android",
+          "group": "navigation@2"
+        },
+        {
+          "command": "opener.openCurrentWindow",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@3"
+        },
+        {
+          "command": "opener.openNewWindow",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@4"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Opener",
+      "properties": {
+        "opener.customFolders": {
+          "type": "array",
+          "default": [],
+          "description": "Custom folder actions for opening specific folders with external applications",
+          "items": {
+            "type": "object",
+            "required": [
+              "folderName",
+              "label",
+              "command",
+              "args"
+            ],
+            "properties": {
+              "folderName": {
+                "type": "string",
+                "description": "Name of the folder to match (e.g., 'server', 'backend')"
+              },
+              "label": {
+                "type": "string",
+                "description": "Display label in context menu"
+              },
+              "command": {
+                "type": "string",
+                "description": "Shell command to execute (e.g., 'open')"
+              },
+              "args": {
+                "type": "array",
+                "description": "Command arguments (e.g., ['-a', 'iTerm.app', '.'])",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^2.19.0",
+    "eslint": "^8.0.0",
+    "mocha": "^11.7.5",
+    "typescript": "^5.0.0"
+  }
+}
